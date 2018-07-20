@@ -2,39 +2,61 @@
 
 Utility to assist in fixing AOT compatibility issues in an Angular codebase.
 
-Currently this utility only does one transformation: turns `private` 
-properties/methods which are accessed by an `.html` template into `public`
-properties/methods.
+The utility performs the following transformations: 
 
-For example, the following component:
+1. Turns `private` properties/methods which are accessed by a html 
+   template into `public` properties/methods (including any `private` 
+   constructor args accessed from the template).
 
-```
-@Component( {
-    selector: 'my-component',
-    template: `
-        Hello, {{ worldText }}!
-    `
-} )
-export class MyComponent {
-    private worldText = "world";
-    private theAnswerToTheUniverse = 42;
-}
-```
+   For example, the following component:
 
-Is changed to:
+   ```
+   @Component( {
+       selector: 'my-component',
+       template: `
+           Hello, {{ worldText }}!
+       `
+   } )
+   export class MyComponent {
+       private worldText = "world";
+       private theAnswerToTheUniverse = 42;
+   }
+   ```
 
-```
-@Component( {
-    selector: 'my-component',
-    template: `
-        Hello, {{ worldText }}!
-    `
-} )
-export class MyComponent {
-    public worldText = "world";  // <-- made `public`
-    private theAnswerToTheUniverse = 42;  // <-- remains as `private`
-}
-```
+   Is changed to:
+
+   ```
+   @Component( {
+       selector: 'my-component',
+       template: `
+           Hello, {{ worldText }}!
+       `
+   } )
+   export class MyComponent {
+       public worldText = "world";  // <-- made `public`
+       private theAnswerToTheUniverse = 42;  // <-- remains as `private`
+   }
+   ```
+   
+2. Makes all `@HostListener` methods public
+3. If a `@HostListener` includes an argument, but the method does not expect one,
+   then the argument is removed. Example: 
+   
+   ```
+   @HostListener( 'window.resize', [ '$event' ] )
+   onResize() {
+       // ...
+   }
+   ```
+   
+   Is changed to:
+   
+   ```
+   @HostListener( 'window.resize' )
+   onResize() {
+       // ...
+   }
+   ```
 
 Essentially every .html file is parsed looking for identifiers which correspond
 to `private` properties in your class, and they are converted to `public`. 

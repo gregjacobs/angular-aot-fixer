@@ -5,6 +5,7 @@ import { resolveHtmlTemplate } from "./resolve-html-template/resolve-html-templa
 import { parseIdentifiersFromHtml } from "./html-parser/parse-identifiers-from-html";
 import { markClassPropertiesPublic } from "./mark-class-properties-public";
 import { filterOutNonComponentClasses } from "./filter-out-non-component-classes";
+import { fixHostListenerMethods } from "./fix-host-listener-methods";
 
 const TraceError = require( 'trace-error' );
 
@@ -18,7 +19,6 @@ export function convert( tsAstProject: Project ): Project {
 	// Find all Component classes. These are classes adorned with the
 	// @Component decorator.
 	const componentClasses = findComponentClasses( tsAstProject );
-
 	componentClasses.forEach( ( componentClass: ClassDeclaration ) => {
 		processComponentClass( componentClass );
 	} );
@@ -66,6 +66,7 @@ function doProcessComponentClass( componentClass: ClassDeclaration ) {
 	const identifiersConsumedInHtml = parseIdentifiersFromHtml( htmlTemplate );
 
 	markClassPropertiesPublic( componentClass, identifiersConsumedInHtml );
+	fixHostListenerMethods( componentClass );
 }
 
 

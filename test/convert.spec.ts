@@ -69,6 +69,14 @@ describe( 'convert()', () => {
 		runTest( `${__dirname}/fixture/html-with-this-properties` );
 	} );
 
+
+	it( `should make any @HostListener methods public if they are private, and
+	     match up the arguments passed by the @HostListener to the parameters
+	     that the method expects by removing any unexpected parameters`,
+	() => {
+		runTest( `${__dirname}/fixture/host-listener` );
+	} );
+
 } );
 
 
