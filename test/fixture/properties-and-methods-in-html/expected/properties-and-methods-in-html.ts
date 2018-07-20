@@ -10,6 +10,9 @@ export class PropertiesAndMethodsInHtml {
 
 	public propInMultiStatementOutputAttribute = 5;
 
+	public propInNgIf = true;
+	public propInNgFor = [ 1, 2, 3 ];
+
 	private realPrivateProp1 = 1;
 	private realPrivateProp2 = 2;
 
@@ -24,6 +27,8 @@ export class PropertiesAndMethodsInHtml {
 	public methodInOutputAttribute() {}
 
 	public methodInMultiStatementOutputAttribute() {}
+
+	public methodInNgFor() {}
 
 	private realPrivateMethod1() {}
 	private realPrivateMethod2() {}

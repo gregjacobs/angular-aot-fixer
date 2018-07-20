@@ -29,8 +29,16 @@ export function parseIdentifiersFromHtml( html: string ): Set<string> {
 		attrNames.forEach( ( attrName: string ) => {
 			const value = attrs[ attrName ];
 
-			// @Input or @Output properties are always an expression
-			if( attrName.startsWith( '[' ) || attrName.startsWith( '(' ) ) {
+			// bracket, parenthesis, and asterisk attributes are always
+			// expressions. Examples:
+			//    [some-input]="prop1"
+			//    (some-output)="myMethod()"
+			//    *ngIf="myBooleanProp"
+			if(
+				attrName.startsWith( '[' )
+				|| attrName.startsWith( '(' )
+				|| attrName.startsWith( '*' )
+			) {
 				const identifiers = parseIdentifiersFromExpr( value );
 				addIdentifiers( identifiers );
 
