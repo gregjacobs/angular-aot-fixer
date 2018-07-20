@@ -52,7 +52,7 @@ export function resolveHtmlTemplateFile( sourceFileDirectoryPath: string, templa
 		const searchedPaths: string[] = [];
 
 		while( !isSystemRootDir( currentDir ) ) {
-			const pathToHtml = path.resolve( sourceFileDirectoryPath + '/', templateUrl );
+			const pathToHtml = path.resolve( currentDir + '/', templateUrl );
 
 			if( fs.existsSync( pathToHtml ) ) {
 				return fs.readFileSync( pathToHtml, 'utf8' );

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+const templateUrl = './template-url-as-var-shorthand.html';
 
 @Component( {
-	templateUrl: './template-url-as-var.html'
+	templateUrl
 } )
 export class TemplateUrlAsVarShorthand {
 	public prop1 = 1;

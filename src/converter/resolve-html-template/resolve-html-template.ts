@@ -90,7 +90,10 @@ function getStringLiteralFromProp( templateProp: ObjectLiteralElementLike ): str
 	} else if( TypeGuards.isPropertyAssignment( templateProp ) ) {
 		const initializer = templateProp.getInitializerOrThrow();
 
-		if( TypeGuards.isStringLiteral( initializer ) ) {
+		if(
+			TypeGuards.isStringLiteral( initializer )
+			|| TypeGuards.isNoSubstitutionTemplateLiteral( initializer )
+		) {
 			return initializer.getLiteralValue();
 
 		} else if( TypeGuards.isIdentifier( initializer ) ) {

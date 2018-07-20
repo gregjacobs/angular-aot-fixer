@@ -11,10 +11,10 @@
 	<div>
 		{{ dependencyInInterpolation }}
 		<my-component
-				[some-input]="dependencyInAttributeInput"
-				[some-output]="dependencyInAttributeOutput"></my-component>
+			[some-input]="dependencyInInputAttribute"
+			[some-output]="dependencyInOutputAttribute"></my-component>
 	</div>
 
 	<my-component
-			(some-output)="methodInMultiStatementOutputAttribute(); propInMultiStatementOutputAttribute = 42;"></my-component>
+		(some-output)="methodInMultiStatementOutputAttribute(); propInMultiStatementOutputAttribute = 42;"></my-component>
 </div>

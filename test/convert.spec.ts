@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { createTsAstProject } from "../src/create-ts-ast-project";
 import { convert } from "../src/converter/convert";
 import { SourceFile } from "ts-simple-ast";
+import * as fs from "fs";
 
 describe( 'convert()', () => {
 
@@ -26,11 +27,25 @@ describe( 'convert()', () => {
 	} );
 
 
+	it( `when the templateUrl is a relative path, should correctly resolve the 
+	     html file`,
+	() => {
+		runTest( `${__dirname}/fixture/template-url-string-literal-as-relative-path` );
+	} );
+
+
 	it( `when the templateUrl is a full path from the project's root directory,
 	     should still correctly resolve the html file, and the fix the path
 	     to be relative to the component file`,
 	() => {
 		runTest( `${__dirname}/fixture/template-url-from-project-root` );
+	} );
+
+
+	it( `should change every property/method found to be used in an HTML 
+	     template into a public property/method`,
+	() => {
+		runTest( `${__dirname}/fixture/properties-and-methods-in-html` );
 	} );
 
 } );
@@ -50,6 +65,11 @@ describe( 'convert()', () => {
  *   `input` and `expected` subdirectories.
  */
 function runTest( absolutePath: string ) {
+	// First, make sure the directory passed exists
+	if( !fs.lstatSync( absolutePath ).isDirectory() ) {
+		throw new Error( absolutePath + ' is not a directory' );
+	}
+
 	const inputFilesProject = createTsAstProject( absolutePath + '/input' );
 	const expectedFilesProject = createTsAstProject( absolutePath + '/expected' );
 
@@ -61,8 +81,13 @@ function runTest( absolutePath: string ) {
 	const expectedSourceFilePaths = expectedFilesProject.getSourceFiles().map( sf => sf.getFilePath() );
 
 	// First, make sure that there are the same number of files in the converted
-	// and expected projects
-	if( convertedSourceFiles.length !== expectedSourceFiles.length ) {
+	// and expected projects (and that they're both greater than 0 to make sure
+	// we actually read some files!)
+	if(
+		convertedSourceFiles.length > 0
+		&& expectedSourceFiles.length > 0
+		&& convertedSourceFiles.length !== expectedSourceFiles.length
+	) {
 		throw new Error( `
 			The number of converted source files (${convertedSourceFiles.length})
 			does not match the number of expected source files (${expectedSourceFiles.length}).

@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai'
 import { parseIdentifiersFromHtml as doParseIdentifiersFromHtml } from "./parse-identifiers-from-html";
 
-describe.only( 'parseIdentifiersFromHtml()', () => {
+describe( 'parseIdentifiersFromHtml()', () => {
 
 	// Helper function for tests which returns an array of the identifiers
 	// out of the Set

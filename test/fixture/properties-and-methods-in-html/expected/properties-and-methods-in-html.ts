@@ -3,10 +3,12 @@
 } )
 export class PropertiesAndMethodsInHtml {
 	public propInInterpolation = 1;
-	public childPropInInterpolation = 2;  // should *not* be marked as public
+	private childPropInInterpolation = 2;  // should *not* be marked as public
 
 	public propInInputAttribute = 3;
 	public propInOutputAttribute = 4;
+
+	public propInMultiStatementOutputAttribute = 5;
 
 	private realPrivateProp1 = 1;
 	private realPrivateProp2 = 2;
@@ -20,6 +22,8 @@ export class PropertiesAndMethodsInHtml {
 
 	public methodInInputAttribute() {}
 	public methodInOutputAttribute() {}
+
+	public methodInMultiStatementOutputAttribute() {}
 
 	private realPrivateMethod1() {}
 	private realPrivateMethod2() {}

@@ -34,10 +34,18 @@ export function getStringLiteralAssignmentFromRelatedVar( identifier: Identifier
 	}
 
 	const initializer = variableDeclaration.getInitializer();
-	if( !initializer || !TypeGuards.isStringLiteral( initializer ) ) {
+	if(
+		!initializer
+		|| (
+			!TypeGuards.isStringLiteral( initializer )
+			&& !TypeGuards.isNoSubstitutionTemplateLiteral( initializer )
+		)
+	) {
 		throw new TraceError( `
 			The variable declaration for the 'template' or 'templateUrl' variable: '${identifier.getText()}'
-			must be assigned to a string literal. Ex: const myTemplate = '<div>...</div>'; 
+			must be assigned to a string literal. 
+			
+			Ex: const myTemplate = '<div>...</div>'; 
 			
 			Saw the following variable initializer text instead:
 			    ${variableDeclaration.getText()}
