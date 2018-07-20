@@ -4,10 +4,10 @@ import { convert } from "./converter/convert";
 import Project from "ts-simple-ast";
 
 /**
- * Asynchronously converts the JavaScript files under the given `sourceFilesPath`
- * to TypeScript files.
+ * Asynchronously fixes an Angular project's files for AOT compatibility.
+ * Returns a Promise.
  */
-export async function convertJsToTs( sourceFilesPath: string ): Promise<void> {
+export async function fixAotCompatibility( sourceFilesPath: string ): Promise<void> {
 	const convertedTsAstProject = doConvert( sourceFilesPath );
 
 	// Save output files
@@ -15,10 +15,10 @@ export async function convertJsToTs( sourceFilesPath: string ): Promise<void> {
 }
 
 /**
- * Synchronously converts the JavaScript files under the given `sourceFilesPath`
- * to TypeScript files.
+ * Synchronously fixes an Angular project's files for AOT compatibility.
+ * Returns a Promise.
  */
-export function convertJsToTsSync( sourceFilesPath: string ) {
+export function fixAotCompatibilitySync( sourceFilesPath: string ) {
 	const convertedTsAstProject = doConvert( sourceFilesPath );
 
 	// Save output files
