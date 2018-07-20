@@ -55,6 +55,13 @@ describe( 'convert()', () => {
 		runTest( `${__dirname}/fixture/properties-without-scope-modifiers` );
 	} );
 
+
+	it( `if a getter's scope is modified to become public, it should also
+	     modify the related setter (and vice-versa)`,
+	() => {
+		runTest( `${__dirname}/fixture/getters-and-setters` );
+	} );
+
 } );
 
 

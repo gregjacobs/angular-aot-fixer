@@ -1,4 +1,4 @@
-import { ClassDeclaration, ParameterDeclaration, Scope } from "ts-simple-ast";
+import { ClassDeclaration, ClassInstanceMemberTypes, ParameterDeclaration, Scope } from "ts-simple-ast";
 
 /**
  * Given a Set of properties/methods to mark as 'public', modifies the given
@@ -9,17 +9,26 @@ export function markClassPropertiesPublic(
 	propsToMarkPublic: Set<string>
 ) {
 	propsToMarkPublic.forEach( propName => {
-		const classMember = classDeclaration.getInstanceMember( propName );
+		// We need to find *all* of the class members with this name. This could
+		// include, for instance, a getter and a setter that both need to be
+		// modified to become public
+		const classMembers = classDeclaration
+			.getInstanceMembers()
+			.filter( ( member: ClassInstanceMemberTypes ) => {
+				return member.getName() === propName;
+			} );
 
-		if( classMember ) {
+		if( classMembers.length > 0 ) {
 			// node: don't modify if there is currently no scope keyword - it
 			// defaults to 'public', and can cause issues if there is a getter
 			// that we make public while a setter has no modifier. This causes
 			// a TypeScript compilation error that the getter and setter do not
 			// have the same access modifier
-			if( classMember.hasScopeKeyword() ) {
-				classMember.setScope( Scope.Public );
-			}
+			classMembers.forEach( ( classMember: ClassInstanceMemberTypes ) => {
+				if( classMember.hasScopeKeyword() ) {
+					classMember.setScope( Scope.Public );
+				}
+			} );
 
 		} else {
 			// See if the property was defined by a constructor parameter, such

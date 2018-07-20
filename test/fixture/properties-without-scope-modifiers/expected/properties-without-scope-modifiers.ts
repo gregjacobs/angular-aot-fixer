@@ -1,7 +1,7 @@
 @Component( {
 	template: '<div>{{ prop1 }} {{ method1() }}</div>'
 } )
-export class TemplateStringLiteral {
+export class PropertiesWithoutScopeModifiers {
 	prop1 = 1;  // should not get 'public' keyword
 	prop2 = 2;
 
