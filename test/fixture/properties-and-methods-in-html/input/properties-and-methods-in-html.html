@@ -10,7 +10,7 @@
 
 	<my-component *ngIf="propInNgIf"></my-component>
 	<my-component *ngFor="let something of propInNgFor"></my-component>
-	<my-component *ngFor="let something of methodInNgFor"></my-component>
+	<my-component *ngFor="let something of methodInNgFor()"></my-component>
 
 	<div>
 		{{ dependencyInInterpolation }}
