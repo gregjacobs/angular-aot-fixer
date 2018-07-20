@@ -1,4 +1,4 @@
-import Project, { Identifier, SyntaxKind, TypeGuards } from "ts-simple-ast";
+import Project, { Identifier, PropertyAccessExpression, SyntaxKind, TypeGuards } from "ts-simple-ast";
 
 /**
  * Given an expression, parses the identifiers used from it.
@@ -15,6 +15,9 @@ import Project, { Identifier, SyntaxKind, TypeGuards } from "ts-simple-ast";
  * 3. If the identifier is directly inside an ElementAccessExpression's
  *    `argumentExpression. This will identify the 'def' in:
  *       `abc[def]`
+ * 4. Special case for Angular html templates: one can use `this.prop` in
+ *    the template where normally just `prop` is used. This method finds
+ *    these as well.
  */
 export function parseIdentifiersFromExpr( expr: string ): Set<string> {
 	const ast = createAst( expr );
@@ -24,9 +27,20 @@ export function parseIdentifiersFromExpr( expr: string ): Set<string> {
 		const parent = identifier.getParent()!;
 
 		if( TypeGuards.isPropertyAccessExpression( parent ) ) {
+			const propAccess = parent as PropertyAccessExpression;  // for clarity
+
 			// If the expression (left-hand-side) of the PropertyAccess is the
 			// identifier, it's a "top level" identifier
-			if( parent.getExpression() === identifier ) {
+			if( propAccess.getExpression() === identifier ) {
+				identifiersSet.add( identifier.getText() );
+
+			// Special case for retrieving `this.prop`, which can be used in
+			// Angular html templates in place of just `prop`. Add `prop` to the
+			// set in this case as well
+			} else if(
+				TypeGuards.isThisExpression( propAccess.getExpression() )
+				&& propAccess.getNameNode() === identifier
+			) {
 				identifiersSet.add( identifier.getText() );
 			}
 

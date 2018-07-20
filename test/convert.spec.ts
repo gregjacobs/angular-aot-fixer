@@ -62,6 +62,13 @@ describe( 'convert()', () => {
 		runTest( `${__dirname}/fixture/getters-and-setters` );
 	} );
 
+
+	it( `if an html template access properties with this.someProp (instead
+	     of just 'someProp'), should mark those as public`,
+	() => {
+		runTest( `${__dirname}/fixture/html-with-this-properties` );
+	} );
+
 } );
 
 
