@@ -1,6 +1,6 @@
 {
 	"name": "angular-aot-fixer",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Utility to assist in fixing AOT compatibility issues in an Angular codebase.",
 	"keywords": [
 		"angular",
