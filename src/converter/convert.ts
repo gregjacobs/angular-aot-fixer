@@ -4,6 +4,7 @@ import { findComponentClasses } from "./find-component-classes";
 import { resolveHtmlTemplate } from "./resolve-html-template/resolve-html-template";
 import { parseIdentifiersFromHtml } from "./html-parser/parse-identifiers-from-html";
 import { markClassPropertiesPublic } from "./mark-class-properties-public";
+import { filterOutNonComponentClasses } from "./filter-out-non-component-classes";
 
 const TraceError = require( 'trace-error' );
 
@@ -18,12 +19,13 @@ export function convert( tsAstProject: Project ): Project {
 	// @Component decorator.
 	const componentClasses = findComponentClasses( tsAstProject );
 
-	// TODO: Filter out all non-@Component .ts files from the project for
-	// output
-
 	componentClasses.forEach( ( componentClass: ClassDeclaration ) => {
 		processComponentClass( componentClass );
 	} );
+
+	// Filter out all non-@Component .ts files from the project for
+	// output
+	tsAstProject = filterOutNonComponentClasses( tsAstProject, componentClasses );
 
 	// Filter out any node_modules files that accidentally got included by an import.
 	// We don't want to modify these when we save the project, and typescript's
