@@ -1,0 +1,20 @@
+<div>
+	{{ propInInterpolation }}
+	{{ propInInterpolation.childPropInInterpolation }}
+
+	<my-component [some-input]="propInInputAttribute"></my-component>
+	<my-component (some-output)="propInOutputAttribute()"></my-component>
+
+	<my-component [some-input]="methodInInputAttribute()"></my-component>
+	<my-component (some-output)="methodInOutputAttribute()"></my-component>
+
+	<div>
+		{{ dependencyInInterpolation }}
+		<my-component
+				[some-input]="dependencyInAttributeInput"
+				[some-output]="dependencyInAttributeOutput"></my-component>
+	</div>
+
+	<my-component
+			(some-output)="methodInMultiStatementOutputAttribute(); propInMultiStatementOutputAttribute = 42;"></my-component>
+</div>

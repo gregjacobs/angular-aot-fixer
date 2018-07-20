@@ -25,12 +25,13 @@
 	"scripts": {
 		"build": "tsc",
 		"cli": "npm run build && node dist/cli.js",
-		"test": "mocha --require ts-node/register --timeout 30000 --watch-extensions ts \"test/**/*.spec.ts\"",
+		"test": "mocha --require ts-node/register --timeout 30000 --watch-extensions ts \"./**/*.spec.ts\"",
 		"prepublishOnly": "npm test && npm run build"
 	},
 	"dependencies": {
 		"argparse": "^1.0.10",
 		"graphlib": "^2.1.5",
+		"htmlparser2": "^3.9.2",
 		"lodash": "^4.17.10",
 		"trace-error": "^0.0.7",
 		"ts-simple-ast": "^12.6.2",
