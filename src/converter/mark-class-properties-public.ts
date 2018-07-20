@@ -12,7 +12,14 @@ export function markClassPropertiesPublic(
 		const classMember = classDeclaration.getInstanceMember( propName );
 
 		if( classMember ) {
-			classMember.setScope( Scope.Public );
+			// node: don't modify if there is currently no scope keyword - it
+			// defaults to 'public', and can cause issues if there is a getter
+			// that we make public while a setter has no modifier. This causes
+			// a TypeScript compilation error that the getter and setter do not
+			// have the same access modifier
+			if( classMember.hasScopeKeyword() ) {
+				classMember.setScope( Scope.Public );
+			}
 
 		} else {
 			// See if the property was defined by a constructor parameter, such

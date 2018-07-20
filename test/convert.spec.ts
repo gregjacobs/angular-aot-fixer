@@ -48,6 +48,13 @@ describe( 'convert()', () => {
 		runTest( `${__dirname}/fixture/properties-and-methods-in-html` );
 	} );
 
+
+	it( `if properties and methods do not specify an access modifier (which
+	     defaults to 'public'), do not change the access modifier`,
+	() => {
+		runTest( `${__dirname}/fixture/properties-without-scope-modifiers` );
+	} );
+
 } );
 
 
