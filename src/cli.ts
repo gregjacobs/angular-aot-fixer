@@ -40,7 +40,7 @@ console.log( 'Outputting .ts files:' );
 printSourceFilesList( convertedTsAstProject, '  ' );
 
 // Save output files
-//convertedTsAstProject.saveSync();
+convertedTsAstProject.saveSync();
 
 
 /**
